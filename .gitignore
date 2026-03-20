@@ -1,0 +1,5 @@
+# Environement File
+.env
+
+# Modified docker compose file
+docker-compose.yml
