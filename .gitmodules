@@ -1,0 +1,6 @@
+[submodule "VertFrontend"]
+	path = VertFrontend
+	url = https://github.com/VERT-sh/VERT.git
+[submodule "Vertd-backend"]
+	path = Vertd-backend
+	url = https://github.com/VERT-sh/vertd.git
