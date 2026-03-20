@@ -4,12 +4,18 @@ Docker Compose setup to self-host [VERT](https://vert.sh) (frontend) and [vertd]
 
 ## Usage
 
-1. Copy the example env file and fill in the required values:
+1. Clone the repository with its submodules:
+   ```bash
+   git clone --recurse-submodules https://github.com/mathys-lopinto/Vert-AllInOne
+   cd Vert-AllInOne
+   ```
+
+2. Copy the example env file and fill in the required values:
    ```bash
    cp .env.exemple .env
    ```
 
-2. Set `ADMIN_PASSWORD` to something secure, then pick the compose file matching your GPU and run it:
+3. Set `ADMIN_PASSWORD` to something secure, then pick the compose file matching your GPU and run it:
 
    | GPU | Command |
    |-----|---------|
@@ -17,7 +23,7 @@ Docker Compose setup to self-host [VERT](https://vert.sh) (frontend) and [vertd]
    | AMD / Intel | `docker compose -f docker-compose.yml.amd-intel up -d` |
    | NVIDIA | `docker compose -f docker-compose.yml.nvidia up -d` |
 
-   The default `docker-compose.yml` uses CPU mode.
+   > There is no default `docker-compose.yml`. You can either use `-f` as above, or copy the file of your choice to `docker-compose.yml` and run `docker compose up -d` as usual.
 
 ## Configuration
 
@@ -38,8 +44,7 @@ Docker Compose setup to self-host [VERT](https://vert.sh) (frontend) and [vertd]
 
 | File | GPU | Notes |
 |------|-----|-------|
-| `docker-compose.yml` | CPU | Default, works everywhere |
-| `docker-compose.yml.cpu` | CPU | Explicit CPU-only, no GPU device passthrough |
+| `docker-compose.yml.cpu` | CPU | Works everywhere, no GPU device passthrough |
 | `docker-compose.yml.amd-intel` | AMD / Intel | Passes `/dev/dri`, uses VAAPI |
 | `docker-compose.yml.nvidia` | NVIDIA | Requires `nvidia-container-toolkit`, uses CUDA |
 
