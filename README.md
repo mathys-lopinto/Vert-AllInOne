@@ -10,20 +10,43 @@ Docker Compose setup to self-host [VERT](https://vert.sh) (frontend) and [vertd]
    cd Vert-AllInOne
    ```
 
+   > If you already cloned without `--recurse-submodules`, initialize them with:
+   > ```bash
+   > git submodule update --init --recursive
+   > ```
+
 2. Copy the example env file and fill in the required values:
    ```bash
    cp .env.exemple .env
    ```
 
-3. Set `ADMIN_PASSWORD` to something secure, then pick the compose file matching your GPU and run it:
+3. Set `ADMIN_PASSWORD` to something secure, then pick the compose file matching your GPU and run it (the `--build` flag builds the images from the submodules):
 
    | GPU | Command |
    |-----|---------|
-   | CPU (no GPU / fallback) | `docker compose -f docker-compose.yml.cpu up -d` |
-   | AMD / Intel | `docker compose -f docker-compose.yml.amd-intel up -d` |
-   | NVIDIA | `docker compose -f docker-compose.yml.nvidia up -d` |
+   | CPU (no GPU / fallback) | `docker compose -f docker-compose.yml.cpu up -d --build` |
+   | AMD / Intel | `docker compose -f docker-compose.yml.amd-intel up -d --build` |
+   | NVIDIA | `docker compose -f docker-compose.yml.nvidia up -d --build` |
 
-   > There is no default `docker-compose.yml`. You can either use `-f` as above, or copy the file of your choice to `docker-compose.yml` and run `docker compose up -d` as usual.
+   > There is no default `docker-compose.yml`. You can either use `-f` as above, or copy the file of your choice to `docker-compose.yml` and run `docker compose up -d --build` as usual.
+
+## Updating
+
+To pull the latest changes and rebuild with the newest frontend/backend versions:
+
+```bash
+# 1. Update the main repo
+git pull origin main
+
+# 2. Update the submodules to their latest remote versions
+git submodule update --remote --merge
+
+# 3. Rebuild and restart (replace .cpu with your GPU variant)
+docker compose -f docker-compose.yml.cpu down
+docker compose -f docker-compose.yml.cpu up -d --build
+```
+
+> The `--build` flag is required: without it, Docker reuses the cached images and the new features won't appear.
 
 ## Configuration
 
